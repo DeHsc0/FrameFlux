@@ -27,10 +27,10 @@ export default function NavBar(){
             </div>
 
             <div className="flex items-center gap-3">
-                <Button size={"lg"} className="bg-black text-white rounded-2xl">
+                <Button size={"lg"} className="bg-[#0f0f0f] text-white rounded-2xl">
                     Login
                 </Button>
-                <Button size={"lg"} className="bg-black text-white rounded-2xl">
+                <Button size={"lg"} className="bg-[#0f0f0f] text-white rounded-2xl">
                     SignUp
                 </Button>
             </div>
