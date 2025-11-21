@@ -1,11 +1,15 @@
+"use client"
+
 import { Dosis } from "next/font/google";
 import { Button } from "./ui/button";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 const dosis = Dosis({
     subsets : ["latin"]
 })
 
 export default function NavBar(){
+
 
     return <nav className="flex justify-center my-5">
         <div className="flex bg-white rounded-4xl px-5 py-2 gap-12 items-center">
@@ -27,12 +31,16 @@ export default function NavBar(){
             </div>
 
             <div className="flex items-center gap-3">
-                <Button size={"lg"} className="bg-[#0f0f0f] text-white rounded-2xl">
-                    Login
-                </Button>
-                <Button size={"lg"} className="bg-[#0f0f0f] text-white rounded-2xl">
-                    SignUp
-                </Button>
+                <SignInButton>
+                    <Button size={"lg"} className="bg-[#0f0f0f] text-white rounded-2xl">
+                        Login
+                    </Button>
+                </SignInButton>
+                <SignUpButton>
+                    <Button size={"lg"} className="bg-[#0f0f0f] text-white rounded-2xl">
+                        SignUp
+                    </Button>
+                </SignUpButton>
             </div>
                         
         </div>

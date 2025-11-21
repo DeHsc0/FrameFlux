@@ -11,13 +11,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url = env("DATABASE_URL") 
 }
 
 model User {
   id    String @id @default(uuid())
   email String @unique
-  name String?
+  clerkId  String @unique
+  userName String
   projects Project[]
 }
 
@@ -27,8 +28,8 @@ model Project {
   imageUrl String 
   versions Version[]
   prompts Prompt[]
-  userId String 
-  user  User @relation(fields: [userId] , references: [id])
+  userClerkId String 
+  user  User @relation(fields: [userClerkId] , references: [clerkId])
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
