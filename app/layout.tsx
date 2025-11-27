@@ -22,7 +22,8 @@ export default function RootLayout({
     <html lang="en" className="dark" style={{ colorScheme : "dark"}}>
       <body
       suppressHydrationWarning
-        className={`${ubuntu.className} antialiased`}
+      
+      className={`${ubuntu.className} antialiased`}
       >
         <ThemeProvider
           attribute="class"
