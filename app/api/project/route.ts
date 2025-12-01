@@ -1,9 +1,11 @@
 
 import { prisma } from '@/lib/db';
+import { createProjectSchema } from '@/lib/zod';
 import { NextRequest, NextResponse } from 'next/server';
-import { createProjectSchema } from './schema';
 
-export async function POST ( req : NextRequest ) {
+
+
+export async function POST ( req : NextRequest ) : Promise<NextResponse> {
 
     try{
       if (!req.headers.get("content-type")?.includes("application/json"))return NextResponse.json({
@@ -14,12 +16,15 @@ export async function POST ( req : NextRequest ) {
 
       const parsedData = createProjectSchema.safeParse(data)
 
-      if(!parsedData.success)return new NextResponse( JSON.stringify({
+      if(!parsedData.success)return NextResponse.json({
         success : false,
+        data,
         error : parsedData.error.flatten()
-      }) , { status : 400 } )
+      } , { status : 400 } )
 
-      const { projectName , imageUrl , clerkId } = parsedData.data
+      const imageUrl = `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${parsedData.data.key}` 
+
+      const { projectName , clerkId } = parsedData.data
 
       const user = await prisma.user.findUnique({
         where : {
@@ -27,10 +32,10 @@ export async function POST ( req : NextRequest ) {
         }
       })
 
-      if(!user)return new NextResponse( JSON.stringify({
+      if(!user)return NextResponse.json({
         success: false, 
         error: "User does not exist" 
-      }) , { status : 404 })
+      } , { status : 404 })
 
       const project = await prisma.project.create({
         data : {
@@ -44,13 +49,12 @@ export async function POST ( req : NextRequest ) {
         }
       })
 
-      return new NextResponse( JSON.stringify(data) , { status : 200})
-
+      return NextResponse.json(data , { status : 200})
     }
     catch(e){
-      return new NextResponse( JSON.stringify({
+      return NextResponse.json({
         error : e
-      }) , {status : 400})
+      } , {status : 400})
     }
 
 }

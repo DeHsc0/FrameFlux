@@ -1,11 +1,9 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -13,7 +11,6 @@ import {
 import { Grid, LucideProps, Trash2 } from "lucide-react"
 import { ForwardRefExoticComponent, RefAttributes } from "react"
 import { Star } from 'lucide-react';
-import { UserAvatar, UserButton, UserProfile } from "@clerk/nextjs";
 
 interface SidebarMenu {
     title : string,

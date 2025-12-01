@@ -1,21 +1,11 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import ProjectDialog from "@/components/ProjectDialog"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { UserAvatar, UserProfile } from "@clerk/nextjs"
-import { PlusSquare } from "lucide-react"
+import { UserAvatar} from "@clerk/nextjs"
 import { Dosis } from "next/font/google"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+
+import { useState } from "react"
 
 const dosis = Dosis({
     subsets : ["latin"]
@@ -23,7 +13,10 @@ const dosis = Dosis({
 
 export default function Dashboard () {
 
-
+    const [ tokenImage , setTokenImage] = useState< {
+        url : string,
+        file : File 
+    } | undefined>()
 
     return (
         <div className="flex flex-col w-full my-2">
@@ -35,38 +28,7 @@ export default function Dashboard () {
                     </h1>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant={"default"} size={"lg"}>
-                                <PlusSquare/>
-                                New Project
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                               <DialogTitle>
-                                 Create a New Project
-                               </DialogTitle>
-                                <DialogDescription>
-                                    Add a name and image to start editing
-                                </DialogDescription>
-                            </DialogHeader>
-
-                            <form>
-
-                                <div>
-                                    <Label>
-                                        Image to Edit
-                                    </Label>
-                                    <div>
-                                        // input
-                                    </div>
-                                </div>
-
-                            </form>
-                            
-                        </DialogContent>
-                    </Dialog>
+                    <ProjectDialog/>
                     <UserAvatar/>
                 </div>
             </div>
