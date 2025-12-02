@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from "react"
 import { Input } from "./ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm} from "react-hook-form"
-import { ProjectCreationSchema } from "@/lib/zod"
+import { ProjectCreationFormSchema } from "@/lib/zod"
 import z from "zod"
 import { useUser } from "@clerk/nextjs"
 import axios from "axios"
@@ -40,12 +40,13 @@ export default function ProjectDialog () {
 
     } , [user])
     
-    type ProjectCreationData = z.infer<typeof ProjectCreationSchema>
+    type ProjectCreationData = z.infer<typeof ProjectCreationFormSchema>
 
-    const { register , handleSubmit , reset , formState : {errors} , setValue} = useForm<ProjectCreationData>({resolver : zodResolver(ProjectCreationSchema)})
+    const { register , handleSubmit , reset , formState : {errors} , setValue} = useForm<ProjectCreationData>({resolver : zodResolver(ProjectCreationFormSchema)})
 
     const [imageToEdit , setImageToEdit] = useState< {
-        url : string
+        url : string,
+        file : File
     } | undefined>()
 
     const handleFileChange = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +59,7 @@ export default function ProjectDialog () {
 
         setValue( "image" , file[0] , { shouldValidate : true})
 
-        setImageToEdit({ url : imageUrl })        
+        setImageToEdit({ url : imageUrl , file : file[0] })        
 
 
     }
@@ -73,6 +74,8 @@ export default function ProjectDialog () {
             //toast User dosent exist
             return 
         }
+
+        if(!imageToEdit)return //toast
         
         const response = await axios.post("/api/getPresignedUrl" , { projectName : data.projectName , imageType : data.image.type} )
 
@@ -80,7 +83,11 @@ export default function ProjectDialog () {
 
         const { presignedUrl , fileKey } = response.data as { presignedUrl : string , fileKey : string }
 
-        const imageToEditUrl = await axios.put(presignedUrl)
+        const imageToEditUrl = await axios.put(presignedUrl ,imageToEdit.file , {
+            headers : {
+                "Content-Type" : imageToEdit.file.type
+            }
+        })
 
         if(imageToEditUrl.status !== 200){            
 
@@ -93,8 +100,7 @@ export default function ProjectDialog () {
 
         const createProject = await axios.post("/api/project" , {
             projectName : data.projectName,
-            key : fileKey,
-            clerkId : userId
+            key : fileKey
         })
 
         console.log(createProject)

@@ -1,9 +1,9 @@
 import { s3 } from '@/lib/utils';
-import { PreSignedUrlSchema } from '@/lib/zod';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
+import { PreSignedUrlSchema } from './schema';
 
 export async function POST ( req : NextRequest ) {
 
@@ -29,7 +29,7 @@ export async function POST ( req : NextRequest ) {
       const fileKey = `uploads/${crypto.randomUUID()}-${projectName}`
 
       const command = new PutObjectCommand({
-        Bucket : process.env.S3_BUCKET,
+        Bucket : process.env.AWS_BUCKET,  //env
         Key : fileKey,
         ContentType : imageType
       })

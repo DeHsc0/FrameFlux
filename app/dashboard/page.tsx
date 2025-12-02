@@ -1,25 +1,18 @@
 "use client"
 
 import ProjectDialog from "@/components/ProjectDialog"
+import ProjectsGrid from "@/components/ProjectsGrid"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { UserAvatar} from "@clerk/nextjs"
 import { Dosis } from "next/font/google"
-
-import { useState } from "react"
 
 const dosis = Dosis({
     subsets : ["latin"]
 })
 
 export default function Dashboard () {
-
-    const [ tokenImage , setTokenImage] = useState< {
-        url : string,
-        file : File 
-    } | undefined>()
-
     return (
-        <div className="flex flex-col w-full my-2">
+        <div className="flex flex-col w-full my-2 gap-3">
             <div className="flex justify-between p-2 rounded-2xl bg-primary-foreground">
                 <div className="flex items-center">
                     <SidebarTrigger/>   
@@ -32,6 +25,7 @@ export default function Dashboard () {
                     <UserAvatar/>
                 </div>
             </div>
+            <ProjectsGrid/>
         </div>
 
     )

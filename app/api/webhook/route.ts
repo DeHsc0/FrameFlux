@@ -58,13 +58,15 @@ export async function POST(req: NextRequest) {
                 message : "Please provide a username"
             }) , {status : 400})
 
-            await prisma.user.create({
+            const response = await prisma.user.create({
                 data : {
                     email : email_addresses[0].email_address,
                     userName : username,
                     clerkId : id,
                 }
             })
+
+            console.log(response)
             
             return new Response(JSON.stringify({ 
                 success: "User created successfully" 
