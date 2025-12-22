@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       String    @id
+  email    String    @unique
+  clerkId  String    @unique
+  userName String
+  Project  Project[]
+}
+
+model Project {
+  id          String    @id
+  name        String    @unique
+  imageUrl    String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now())
+  userClerkId String
+  User        User      @relation(fields: [userClerkId], references: [clerkId])
+  Prompt      Prompt[]
+  Version     Version[] 
+}
+
+model Prompt {
+  id        String   @id
+  projectId String   
+  text      String
+  createdAt DateTime @default(now())
+  Project   Project  @relation(fields: [projectId], references: [id])
+}
+
+
+model Version {
+  id        String   @id
+  projectId String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  Project   Project  @relation(fields: [projectId], references: [id])
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@repo/backend",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "",
+    "build": "tsc -b",
+    "start": "node ./dist",
+    "dev": "tsx watch src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.19.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@clerk/express": "^1.7.58",
+    "@repo/typescript-config": "*",
+    "dotenv": "^16.0.3",
+    "express": "^5.2.1"
+  }
+}
