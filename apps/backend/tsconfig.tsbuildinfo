@@ -1,1 +1,1 @@
-{"root":["./src/index.ts"],"version":"5.9.2"}
+{"root":["./src/app.ts","./src/controllers/webhook.controller.ts","./src/routes/index.ts","./src/routes/webhook.route.ts","./src/types/globals.d.ts"],"version":"5.9.2"}
